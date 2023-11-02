@@ -81,8 +81,6 @@ export default function Auth({ session, setSessionFromTokens }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.Status === 'OTP Verified') {
-          console.log("refresh_token : "+data.data.session.refresh_token)
-          console.log("access_token : "+data.data.session.access_token)
           setSessionFromTokens(data.data.session);
         } else {
           console.log(data.Status);
