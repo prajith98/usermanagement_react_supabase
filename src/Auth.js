@@ -9,6 +9,7 @@ export default function Auth({ session, setSessionFromTokens }) {
   const [otp, setOtp] = useState('');
   const [enteredOTP, setEnteredOTP] = useState('');
 
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -22,14 +23,12 @@ export default function Auth({ session, setSessionFromTokens }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      //  'Authorization': `Bearer 14fd9541f17f49af86c2f4928f7268a9` // Corrected API key reference
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppZnRqcHJub2V6dmF1b3RjZXFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1NTExMDYsImV4cCI6MjAxMzEyNzEwNn0.tfELCWtR-xPJ0QBCPw9rLhp-9nIxF5Ql5-fSe5JJQAc'
+        'Authorization': `Bearer ${process.env.REACT_APP_SUPABASE_KEY}`
       },
       body: JSON.stringify({ email: email }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(JSON.stringify(data));
         if (data.Status === 'Paid User') {
           setEmailExists(true);
           sendOTPForEmailVerification(email);
@@ -49,14 +48,12 @@ export default function Auth({ session, setSessionFromTokens }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      //  'Authorization': `Bearer 14fd9541f17f49af86c2f4928f7268a9` // Corrected API key reference
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppZnRqcHJub2V6dmF1b3RjZXFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1NTExMDYsImV4cCI6MjAxMzEyNzEwNn0.tfELCWtR-xPJ0QBCPw9rLhp-9nIxF5Ql5-fSe5JJQAc'
+        'Authorization': `Bearer ${process.env.REACT_APP_SUPABASE_KEY}`
       },
       body: JSON.stringify({ email: email }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(JSON.stringify(data));
         if (data.Status === 'OTP Sent') {
           setOtpSent(true);
         } else {
@@ -77,15 +74,13 @@ export default function Auth({ session, setSessionFromTokens }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      //  'Authorization': `Bearer 14fd9541f17f49af86c2f4928f7268a9` // Corrected API key reference
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppZnRqcHJub2V6dmF1b3RjZXFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1NTExMDYsImV4cCI6MjAxMzEyNzEwNn0.tfELCWtR-xPJ0QBCPw9rLhp-9nIxF5Ql5-fSe5JJQAc'
+        'Authorization': `Bearer ${process.env.REACT_APP_SUPABASE_KEY}`
       },
       body: JSON.stringify({ email: email, enteredOTP: enteredOTP }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.Status === 'OTP Verified') {
-          console.log(JSON.stringify(data));
           console.log("refresh_token : "+data.data.session.refresh_token)
           console.log("access_token : "+data.data.session.access_token)
           setSessionFromTokens(data.data.session);
