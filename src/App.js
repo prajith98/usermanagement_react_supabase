@@ -30,6 +30,9 @@ function App() {
     } else {
       setSession(null);
     }
+    
+    // remove Cookie
+    Cookies.remove('session');
   };
 
   // Function to check if the stored session is valid and reset the cookie if it's not
