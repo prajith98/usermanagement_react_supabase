@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from './supabaseClient';
+import Cookies from 'js-cookie';
 
 export default function Auth({ session, setSessionFromTokens }) {
   const [loading, setLoading] = useState(false);
