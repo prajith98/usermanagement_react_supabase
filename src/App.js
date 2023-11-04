@@ -19,7 +19,10 @@ function App() {
       });
       setSession(session);
       // Store the session in a cookie
-      Cookies.set('session', JSON.stringify(session));
+      
+      // Calculate the expiration time in seconds from the 'session.expires_in' value
+      const maxAge = session.expires_in;
+      Cookies.set('session', JSON.stringify(session), { expires: maxAge });
 
     }
   };
@@ -37,6 +40,8 @@ function App() {
 
   // Function to check if the stored session is valid and reset the cookie if it's not
   const checkSessionValidity = async () => {
+
+    await setSessionFromTokens(JSON.parse(Cookies.get('session')));
     const { data, error } = await supabase.auth.getSession();
 
     if (error) {
